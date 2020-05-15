@@ -1,16 +1,6 @@
 # GUI for a differential mobile robot
 
-## 1. Contents
-
--Prerequisites
-
--Introduction
-
--RVIZ differential mobile robot
-
--GUI using PYQT4
-
-## 2. Prerequisites
+## 1. Prerequisites
 
 Have ROS Melodic, QT Creator, PYQT4, gazebo control plugin, gazebo ros installed.
 
@@ -18,11 +8,11 @@ You have to have a catkin workspace.
 
 Add the folder to your workspace.
 
-## 3. Introduction
+## 2. Introduction
 
 A GUI is performed in PYQT4 for the teleoperation and control of a simulated differential mobile robot in RVIZ using ROS.
 
-## 4. RVIZ differential mobile robot
+## 3. RVIZ differential mobile robot
 
 Use the follwing line in the terminal for view the robot created in RVIZ.
 
@@ -58,7 +48,7 @@ It is observed how when giving the respective keys the robot in rviz begins to m
 
 ![Teleop move](images/teleop.gif)
 
-## 5. GUI using PYQT4
+## 4. GUI using PYQT4
 
 In order to open the interface, it must be guaranteed to be in the following location in the terminal your_ws/src/diferencial/src  and we run the program:
 
