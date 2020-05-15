@@ -2,6 +2,14 @@
 
 ## 1. Contents
 
+-Prerequisites
+
+-Introduction
+
+-RVIZ differential mobile robot
+
+-GUI using PYQT4
+
 ## 2. Prerequisites
 
 Have ROS Melodic, QT Creator, PYQT4, gazebo control plugin, gazebo ros installed.
