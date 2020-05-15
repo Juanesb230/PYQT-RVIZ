@@ -16,7 +16,7 @@ Run the setup.bash to add the variables in linux environment with the following 
 
 ## 2. Description
 
-A GUI is performed in PYQT4 for the teleoperation and control of a simulated differential mobile robot in RVIZ using ROS.
+The following GUI is performed in PYQT4 for the teleoperation and control of a simulated differential mobile robot in RVIZ using ROS.
 
 ## 3. RVIZ differential mobile robot
 
@@ -24,7 +24,7 @@ Use the following line in the terminal for view the robot created in RVIZ.
 
     roslaunch diferencial 01-diferencial.launch
 
-When giving enter, the RVIZ must be displayed with the view of the robot as shown in the following figure:
+The RVIZ must be displayed with the view of the robot as shown in the following figure:
 
 ![RVIZ Robot](images/rviz_robot.png)
 
