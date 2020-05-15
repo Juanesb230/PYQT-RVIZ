@@ -2,19 +2,25 @@
 
 ## 1. Prerequisites
 
-Have ROS Melodic, QT Creator, PYQT4, gazebo control plugin, gazebo ros installed.
+Have installed on your computer QT creator, PYQT4, ROS Melodic, ROS Melodic packages: gazebo ros plugin, gazebo ros.
 
-You have to have a catkin workspace.
+Having created a catkin workspace.
 
-Add the folder to your workspace.
+Within the src folder of your workspace clone the repository, by using the following line:
 
-## 2. Introduction
+    git clone https://github.com/Juanesb230/PYQT-RVIZ.git
+
+Run the setup.bash to add the variables in linux environment with the following line:
+
+    source ~/catkin_ws/devel/setup.bash
+
+## 2. Description
 
 A GUI is performed in PYQT4 for the teleoperation and control of a simulated differential mobile robot in RVIZ using ROS.
 
 ## 3. RVIZ differential mobile robot
 
-Use the follwing line in the terminal for view the robot created in RVIZ.
+Use the following line in the terminal for view the robot created in RVIZ.
 
     roslaunch diferencial 01-diferencial.launch
 
@@ -22,9 +28,7 @@ When giving enter, the RVIZ must be displayed with the view of the robot as show
 
 ![RVIZ Robot](images/rviz_robot.png)
 
-This launch runs the JointState Controller, the Differential Drive ROS Controller, loads the URDF from the mobile robot and opens the RVIZ.
-
-In order to better understand the use of the Differential Drive ROS Controller you can go to the following link:
+This launch runs the JointState Controller, the Differential Drive ROS Controller, loads the URDF from the mobile robot and opens the RVIZ. In order to better understand the use of the Differential Drive ROS Controller you can go to the following link:
 
 <https://www.theconstructsim.com/ros-qa-126-how-to-configure-the-differential-drive-ros-controller/>
 
