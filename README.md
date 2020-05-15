@@ -12,7 +12,7 @@ Within the src folder of your workspace clone the repository, by using the follo
 
 Run the setup.bash to add the variables in linux environment with the following line:
 
-    source ~/catkin_ws/devel/setup.bash
+    source ~/your_ws/devel/setup.bash
 
 ## 2. Description
 
