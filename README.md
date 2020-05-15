@@ -52,10 +52,32 @@ It is observed how when giving the respective keys the robot in rviz begins to m
 
 ## 5. GUI using PYQT4
 
-In order to open the interface, it must be guaranteed to be in the following location in the terminal your_ws/src/ diferencial/src  and we run the program:
+In order to open the interface, it must be guaranteed to be in the following location in the terminal your_ws/src/diferencial/src  and we run the program:
 
     python control_v2.py
 
 The interface shown in the figure opens:
 
 ![GUI](images/gui1.png)
+
+As you can see, the interface consists of three operating modes, tele-operation, posture control and path control.
+
+The following figure shows how tele-operation works:
+
+![GUI_Teleop](images/GUI_Teleop.gif)
+
+For posture and trajectory control it was considered a PID cinematic controller.
+
+The posture control is based on setting the position where you want the robot to go, as shown in the following figure:
+
+![GUI_Posture](images/GUI_Posture.gif)
+
+Finally we have trajectory control, which can be an eight, a circle and a heart.
+
+Its operation can be seen in the following figure:
+
+![GUI_Tray](images/GUI_Tray.gif)
+
+There is also a configuration window to set the robot speeds in tele-operation mode and set the speeds of the generated trajectories.
+
+![Settings](images/Settings.png)
