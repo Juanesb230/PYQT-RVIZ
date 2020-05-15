@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="diferencial" type="circle_reference.py" name="circle_reference" />
+    <!--node pkg="diferencial" type="trajectory_control.py" name="trajectory_control" /-->   
+</launch>
