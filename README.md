@@ -48,11 +48,11 @@ So we execute the teleoperation node through the following line in a new termina
 
     rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/mobile_base_controller/cmd_vel
 
-The robot starts to move when you press the letters: (I),(J),(K),(L),(;) of the keyboard
+The robot starts to move when you press the letters: (I),(J),(K),(L),(;) of the keyboard.
 
 ![Teleop move](images/teleop.gif)
 
-## 4. GUI using PYQT4
+## 4. Controller Interface using PYQT4
 
 In order to open the interface, it must be guaranteed to be in the following location in the terminal:
 
