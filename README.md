@@ -115,16 +115,14 @@ The posture control is based on setting the position where you want the robot to
 ![GUI_Posture](images/GUI_Posture.gif)
 
 <p style="text-align: justify">
-Finally we have trajectory control, you can choose between this trajectories: an eight, a circle and a heart.
+Finally we have trajectory control, you can choose between this trajectories: an eight, a circle and a heart. As an example, in the next animation the robot makes a circle.
 </p>
-
-As an example, in the next animation the robot makes a circle.
 
 ![GUI_Tray](images/GUI_Tray.gif)
 
-<p style="text-align: justify">
+<div style="text-align: justify">
 There is also a configuration window to set the robot speeds in tele-operation mode and set the speeds of the generated trajectories.
-</p>
+</div>
 
 ![Settings](images/Settings.png)
 
