@@ -6,6 +6,8 @@ Have installed on your computer QT creator, PYQT4, ROS Melodic, ROS Melodic pack
 
 Having created a catkin workspace.
 
+## 2. Installation
+
 Within the src folder of your workspace clone the repository, by using the following line:
 
     git clone https://github.com/Juanesb230/PYQT-RVIZ.git
@@ -14,11 +16,11 @@ Run the setup.bash to add the variables in linux environment with the following 
 
     source ~/your_ws/devel/setup.bash
 
-## 2. Description
+## 3. Description
 
 The following GUI is performed in PYQT4 for the teleoperation and control of a simulated differential mobile robot in RVIZ using ROS.
 
-## 3. RVIZ differential mobile robot
+## 4. RVIZ differential mobile robot
 
 Use the following line in the terminal for view the robot created in RVIZ.
 
@@ -52,7 +54,7 @@ The robot starts to move when you press the letters: (I),(J),(K),(L),(;) of the 
 
 ![Teleop move](images/teleop.gif)
 
-## 4. Controller Interface using PYQT4
+## 5. Controller Interface using PYQT4
 
 In order to open the interface, it must be guaranteed to be in the following location in the terminal:
 
