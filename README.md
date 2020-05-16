@@ -28,11 +28,11 @@ The RVIZ must be displayed with the view of the robot as shown in the following 
 
 ![RVIZ Robot](images/rviz_robot.png)
 
-This launch runs the JointState Controller, the Differential Drive ROS Controller, loads the URDF from the mobile robot and opens the RVIZ. In order to better understand the use of the Differential Drive ROS Controller you can go to the following link:
+This launch runs the JointState Controller, the Differential Drive ROS Controller, loads the URDF from the mobile robot and opens the RVIZ. Go to the following link for more information about the configuration of the Differential Drive ROS Controller.
 
 <https://www.theconstructsim.com/ros-qa-126-how-to-configure-the-differential-drive-ros-controller/>
 
-To test the operation of the system we are going to teleoperate the robot through the keyboard using the teleop_twist_keyboard which can be downloaded at the following link:
+To probe the operation of the system, we are going to teleoperate the robot through the keyboard using the teleop_twist_keyboard which can be downloaded at the following link:
 
 <https://github.com/ros-teleop/teleop_twist_keyboard>
 
@@ -40,31 +40,37 @@ Or using the following command:
 
     pip install teleop_twist_keyboard
 
-To command the robot using the linear and angular speeds of the robot, a message must be posted to the topic /mobile_base_controller/cmd_vel as shown in the figure.
+The robot is teleoperated using the linear and angular speeds of the robot, so it is necesary to send the message in the topic:
 
-![Topics](images/rostopic_list.png)
+    /mobile_base_controller/cmd_vel 
 
 So we execute the teleoperation node through the following line in a new terminal:
 
     rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/mobile_base_controller/cmd_vel
 
-It is observed how when giving the respective keys the robot in rviz begins to move.
+The robot starts to move when you press the letters: (I),(J),(K),(L),(;) of the keyboard
 
 ![Teleop move](images/teleop.gif)
 
 ## 4. GUI using PYQT4
 
-In order to open the interface, it must be guaranteed to be in the following location in the terminal your_ws/src/diferencial/src  and we run the program:
+In order to open the interface, it must be guaranteed to be in the following location in the terminal:
+
+    ~/your_ws/src/diferencial/src  
+
+And run the program:
 
     python control_v2.py
 
-The interface shown in the figure opens:
+The interface consists of three operating modes:
 
-![GUI](images/gui1.png)
+-Tele-operation
 
-As you can see, the interface consists of three operating modes, tele-operation, posture control and path control.
+-Posture control
 
-The following figure shows how tele-operation works:
+-Trajectory control
+
+The following figure shows how tele-operation works.
 
 ![GUI_Teleop](images/GUI_Teleop.gif)
 
@@ -74,9 +80,9 @@ The posture control is based on setting the position where you want the robot to
 
 ![GUI_Posture](images/GUI_Posture.gif)
 
-Finally we have trajectory control, which can be an eight, a circle and a heart.
+Finally we have trajectory control, you can choose between this trajectories: an eight, a circle and a heart.
 
-Its operation can be seen in the following figure:
+As an example, in the next figure the robot makes a circle.
 
 ![GUI_Tray](images/GUI_Tray.gif)
 
