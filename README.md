@@ -67,7 +67,7 @@ The robot is teleoperated using the linear and angular speeds of the robot, so i
     /mobile_base_controller/cmd_vel 
 
 <p align="justify">
-So we execute the teleoperation node through the following line in a new terminal:
+Then, execute the teleoperation node through the following line in a new terminal:
 </p>
 
     rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/mobile_base_controller/cmd_vel
