@@ -28,7 +28,11 @@ Having created a catkin workspace.
 
 <p style="text-align: justify;">The RVIZ must be displayed with the view of the robot as shown in the following figure:</p>
 
+<center>
+
 ![RVIZ Robot](images/rviz_robot.png)
+
+</center>
 
 <p style="text-align: justify;">This launch runs the JointState Controller, the Differential Drive ROS Controller, loads the URDF from the mobile robot and opens the RVIZ. Go to the following link for more information about the configuration of the Differential Drive ROS Controller.</p>
 
@@ -52,7 +56,11 @@ Or using the following command:
 
 <p style="text-align: justify;">The robot starts to move when you press the letters: (I),(J),(K),(L),(;) of the keyboard.</p>
 
+<center>
+
 ![Teleop move](images/teleop.gif)
+
+</center>
 
 ## 5. Controller Interface using PYQT4
 
