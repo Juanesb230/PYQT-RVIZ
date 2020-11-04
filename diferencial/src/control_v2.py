@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'control_v2.ui'
-#
-# Created by: PyQt4 UI code generator 4.12.1
-#
-# WARNING! All changes made in this file will be lost!
 from __future__ import unicode_literals
 import os
 import random
@@ -30,7 +23,25 @@ from matplotlib.backends.backend_qt4agg import (
 from matplotlib.backends.qt_compat import QtCore, QtGui
 from matplotlib.figure import Figure
 
+from collections import deque
+
 progname = os.path.basename(sys.argv[0])
+
+ESCALAR_FACTOR=70.0
+p_ref_ant=np.array([[0.0],[0.0]])
+p_ref=np.array([[0.0],[0.0]])
+x= 0.0
+y= 0.0
+theta=0.0
+xr= 0.0
+yr= 0.0
+m=0
+dx=deque(np.zeros(40))
+dy=deque(np.zeros(40))
+dxr=deque(np.zeros(40))
+dyr=deque(np.zeros(40))
+sample_time=0.1
+
 
 class MyMplCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
@@ -54,22 +65,46 @@ class MyMplCanvas(FigureCanvas):
 
 
 class MyStaticMplCanvas(MyMplCanvas):
-    """Simple canvas with a sine plot."""
 
+    def __init__(self, *args, **kwargs):
+        MyMplCanvas.__init__(self, *args, **kwargs)
+        timercanvas = QtCore.QTimer(self)
+        timercanvas.timeout.connect(self.update_figure)
+        timercanvas.start(3000)
+        
     def compute_initial_figure(self):
-        t = arange(0.0, 3.0, 0.01)
-        s = sin(2*pi*t)
-        self.axes.plot(t, s)
+        global dx
+        global dy
+        self.axes.plot(dx, dy, 'r.')
+        self.axes.set_xlim(-6.0, 6.0)
+        self.axes.set_ylim(-6.0, 6.0)
 
-ESCALAR_FACTOR=70.0
-p_ref_ant=np.array([[0.0],[0.0]])
-p_ref=np.array([[0.0],[0.0]])
-x= 0.0
-y= 0.0
-theta=0.0
-xr= 0.0
-yr= 0.0
-m=0
+    def update_figure(self):
+        global dx
+        global dy
+        global x
+        global y
+        global m
+        global xr
+        global yr
+        dx.popleft()
+        dy.popleft()
+        dx.append(x)
+        dy.append(y)
+        dxr.popleft()
+        dyr.popleft()
+        dxr.append(xr)
+        dyr.append(yr)
+        self.axes.cla()
+        self.axes.set_xlim(-4.0, 4.0)
+        self.axes.set_ylim(-4.0, 4.0)
+        if m == 0:
+            self.axes.plot(dx, dy, 'r.',label = 'Robot')
+        else:
+            self.axes.plot(dxr, dyr, 'b^',label = 'Reference')
+            self.axes.plot(dx, dy, 'r.',label = 'Robot')
+        self.axes.legend(loc ='upper right')
+        self.draw()
 
 class RecurringTimer(threading._Timer):
      
@@ -185,27 +220,124 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_Form(object):
-    def teleop(self):
-        self.groupBox_2.setEnabled(True)
-        self.groupBox_3.setEnabled(False)
-        self.groupBox_4.setEnabled(False)
+class ChildWindow(QtGui.QWidget):
+    def __init__(self):
+        super(ChildWindow, self).__init__()
         timer.stop_timer()
         cmd = geometry_msgs.msg.Twist()
         cmd.linear.x = 0.0
         cmd.angular.z = 0.0
         diff_vel.publish(cmd)
+        self.initUI()
+ 
+    def initUI(self):
+        global SpinBox_f
+        global SpinBox_s
+        btn1 = QtGui.QPushButton("Ok",self)
+        btn1.move(195, 200)
+        btn1.clicked.connect(self.ok)
+        telebox = QtGui.QGroupBox("Teleoperation Settings",self)
+        telebox.setCheckable(False)
+        telebox.setGeometry(QtCore.QRect(10, 10, 300, 90))
+        text_u = QtGui.QLineEdit("Lineal velocity [m/s]:",telebox)
+        text_u.setEnabled(True)
+        text_u.setGeometry(QtCore.QRect(10, 30, 170, 25))
+        text_u.setReadOnly(True)
+        text_u.setObjectName(_fromUtf8("text_u"))
+        text_w = QtGui.QLineEdit("Angular velocity [rad/s]:",telebox)
+        text_w.setEnabled(True)
+        text_w.setGeometry(QtCore.QRect(10, 60, 170, 25))
+        text_w.setReadOnly(True)
+        text_w.setObjectName(_fromUtf8("text_w"))
+        SpinBox_u = QtGui.QDoubleSpinBox(telebox)
+        SpinBox_u.setGeometry(QtCore.QRect(200, 30, 69, 26))
+        SpinBox_u.setDecimals(1)
+        SpinBox_u.setMinimum(0.0)
+        SpinBox_u.setMaximum(1.5)
+        SpinBox_u.setSingleStep(0.1)
+        SpinBox_u.setValue(0.2)
+        SpinBox_u.setObjectName(_fromUtf8("SpinBox_u"))
+        SpinBox_w = QtGui.QDoubleSpinBox(telebox)
+        SpinBox_w.setGeometry(QtCore.QRect(200, 60, 69, 26))
+        SpinBox_w.setDecimals(1)
+        SpinBox_w.setMinimum(0.0)
+        SpinBox_w.setMaximum(1.7)
+        SpinBox_w.setSingleStep(0.1)
+        SpinBox_w.setValue(0.2)
+        SpinBox_w.setObjectName(_fromUtf8("SpinBox_w"))
+        controlBox = QtGui.QGroupBox("Control Settings",self)
+        controlBox.setCheckable(False)
+        controlBox.setGeometry(QtCore.QRect(10, 100, 300, 90))
+        text_f = QtGui.QLineEdit("Escalar factor time [u]:",controlBox)
+        text_f.setEnabled(True)
+        text_f.setGeometry(QtCore.QRect(10, 30, 170, 25))
+        text_f.setReadOnly(True)
+        text_f.setObjectName(_fromUtf8("text_f"))
+        SpinBox_f = QtGui.QSpinBox(controlBox)
+        SpinBox_f.setGeometry(QtCore.QRect(200, 30, 69, 26))
+        SpinBox_f.setMinimum(10)
+        SpinBox_f.setMaximum(100)
+        SpinBox_f.setSingleStep(10)
+        SpinBox_f.setValue(70)
+        SpinBox_f.setObjectName(_fromUtf8("SpinBox_f"))
+        self.setGeometry(1000, 200, 300, 240)
+        self.setWindowTitle('Settings')
+        self.show()
+ 
+    def ok(self):
+        global ESCALAR_FACTOR
+        global timer
+        global sample_time
+        global SpinBox_f
+        ESCALAR_FACTOR = float(SpinBox_f.value())
+        self.close()
+
+
+class Ui_Form(object):
+    def __init__(self):
+        super(Ui_Form, self).__init__()
+        self.children = []
+
+    def teleop(self):
+        global dx
+        global dy
+        global dxr
+        global dyr
+        global m
+        global timer
+        self.groupBox_2.setEnabled(True)
+        self.groupBox_3.setEnabled(False)
+        self.groupBox_4.setEnabled(False)
+        dx=deque(np.zeros(40))
+        dy=deque(np.zeros(40))
+        dxr=deque(np.zeros(40))
+        dyr=deque(np.zeros(40))
+        timer.stop_timer()
+        m = 0
+        cmd = geometry_msgs.msg.Twist()
+        cmd.linear.x = 0.0
+        cmd.angular.z = 0.0
+        diff_vel.publish(cmd)
+        
 
     def posture(self):
         global m
         global xr
         global yr
+        global dx
+        global dy
+        global dxr
+        global dyr
         xr=0.0
         yr=0.0
-        m=0
+        m=4
         self.groupBox_2.setEnabled(False)
         self.groupBox_3.setEnabled(False)
         self.groupBox_4.setEnabled(True)
+        dx=deque(np.zeros(40))
+        dy=deque(np.zeros(40))
+        dxr=deque(np.zeros(40))
+        dyr=deque(np.zeros(40))
         timer.start_timer()
 
     def tray(self):
@@ -213,40 +345,80 @@ class Ui_Form(object):
         global xr
         global yr
         global timer
+        global dx
+        global dy
+        global dxr
+        global dyr
         xr=0.0
         yr=0.0
-        m=0
+        m=4
         self.radioButton_7.setChecked(True)
         self.groupBox_2.setEnabled(False)
         self.groupBox_3.setEnabled(True)
-        self.groupBox_4.setEnabled(False) 
+        self.groupBox_4.setEnabled(False)
+        dx=deque(np.zeros(40))
+        dy=deque(np.zeros(40))
+        dxr=deque(np.zeros(40))
+        dyr=deque(np.zeros(40))
         timer.start_timer()
 
     def circle(self):
         global m
+        global dx
+        global dy
+        global dxr
+        global dyr
         m=1
+        dx=deque(np.zeros(40))
+        dy=deque(np.zeros(40))
+        dxr=deque(np.zeros(40))
+        dyr=deque(np.zeros(40))
 
     def eigth(self):
         global m
+        global dx
+        global dy
+        global dxr
+        global dyr
         m=2
+        dx=deque(np.zeros(40))
+        dy=deque(np.zeros(40))
+        dxr=deque(np.zeros(40))
+        dyr=deque(np.zeros(40))
 
     def heart(self):
         global m
+        global dx
+        global dy
+        global dxr
+        global dyr
         m=3
+        dx=deque(np.zeros(40))
+        dy=deque(np.zeros(40))
+        dxr=deque(np.zeros(40))
+        dyr=deque(np.zeros(40))
 
     def init_pos(self):
         global m
         global xr
         global yr
+        global dx
+        global dy
+        global dxr
+        global dyr
         xr=0.0
         yr=0.0
-        m=0
+        m=4
+        dx=deque(np.zeros(40))
+        dy=deque(np.zeros(40))
+        dxr=deque(np.zeros(40))
+        dyr=deque(np.zeros(40))
 
     def set_pos(self):
         global m
         global xr
         global yr
-        m=0
+        m=4
         xr=float(self.doubleSpinBox.value())
         yr=float(self.doubleSpinBox_2.value())
     
@@ -279,6 +451,14 @@ class Ui_Form(object):
         cmd.linear.x = 0.0
         cmd.angular.z = 0.0
         diff_vel.publish(cmd)
+
+    def config(self):
+        self.radioButton.setChecked(True)
+        self.groupBox_2.setEnabled(True)
+        self.groupBox_3.setEnabled(False)
+        self.groupBox_4.setEnabled(False)
+        child = ChildWindow()
+        self.children.append(child)
 
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
@@ -391,6 +571,7 @@ class Ui_Form(object):
         QtCore.QObject.connect(self.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")),self.behind)
         QtCore.QObject.connect(self.pushButton_4, QtCore.SIGNAL(_fromUtf8("clicked()")),self.left)
         QtCore.QObject.connect(self.pushButton_6, QtCore.SIGNAL(_fromUtf8("clicked()")),self.stop)
+        QtCore.QObject.connect(self.configButton, QtCore.SIGNAL(_fromUtf8("clicked()")),self.config)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -432,7 +613,7 @@ if __name__ == "__main__":
     diff_vel = rospy.Publisher('/mobile_base_controller/cmd_vel', geometry_msgs.msg.Twist,queue_size=1)
     timer = RecurringTimer(0.1, sayhi)
     app = QtGui.QApplication(sys.argv)
-    Form = QtGui.QWidget()
+    Form = QtGui.QMainWindow()
     ui = Ui_Form()
     ui.setupUi(Form)
     Form.show()
