@@ -72,6 +72,7 @@ class MyStaticMplCanvas(MyMplCanvas):
         timercanvas.timeout.connect(self.update_figure)
         timercanvas.start(3000)
         
+
     def compute_initial_figure(self):
         global dx
         global dy

@@ -16,7 +16,7 @@ mobile_base_controller:
     wheel_separation_multiplier: 1.0 # default: 1.0
     wheel_radius_multiplier    : 1.0 # default: 1.0
   
-    # Velocity commands timeout [s], default 0.5
+    # Velocity commands timeout [s], default 0.25
     cmd_vel_timeout: 0.25
   
     # Base frame_id

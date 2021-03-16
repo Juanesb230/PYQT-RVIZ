@@ -43,25 +43,23 @@ def Odom(msg):
     theta=angles[2]
 
 #CIRCLE REFERENCE
-def reference():
-    t = rospy.Time.now().to_sec() * math.pi
-    x = 2.0 * math.cos(t/ESCALAR_FACTOR)
-    y = 2.0 * math.sin(t/ESCALAR_FACTOR)
-    return x, y
+def reference(msg):
+    global p_ref
+
+    p_ref[0, 0] = msg.x
+    p_ref[1, 0] = msg.y
+
 
 if __name__ == '__main__':
         #NODE DEFINITION
         rospy.init_node('trajectory_control')
         sub_odom = rospy.Subscriber('/mobile_base_controller/odom',Odometry,Odom)
+        sub_reference = rospy.Subscriber('/mobile_base_controller/reference',geometry_msgs.msg.Point,reference)
         diff_vel = rospy.Publisher('/mobile_base_controller/cmd_vel', geometry_msgs.msg.Twist,queue_size=1)
-        p_ref_ant[0, 0], p_ref_ant[1, 0] = reference()
         rate = rospy.Rate(10.0)
         while not rospy.is_shutdown():
-            t = rospy.Time.now().to_sec() * math.pi
-            p_ref[0, 0] = 2.0 * math.cos(t/ESCALAR_FACTOR)
-            p_ref[1, 0] = 2.0 * math.sin(t/ESCALAR_FACTOR)
             linear, angular = Control(theta, x, y, p_ref_ant, p_ref, [0.6, 0.6])
-            p_ref_ant[0, 0], p_ref_ant[1, 0] = reference()
+            p_ref_ant = p_ref
 
             #CONTROL SIGNAL SATURED
             if linear > 1.0:
